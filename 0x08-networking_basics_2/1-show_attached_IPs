@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Use 'ip' to get a list of network interfaces and their IPs
+
+ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | sort -u
