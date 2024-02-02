@@ -12,4 +12,3 @@ sudo sed -i 's/127.0.0.1[[:space:]]\+localhost/127.0.0.2 localhost/g' "$original
 sudo sed -i 's/\bfacebook.com\b/8.8.8.8 facebook.com/g' "$original_hosts"
 
 # Output success message
-echo "Configuration completed successfully. Remember to revert localhost to 127.0.0.1 if needed."
