@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 #bash script to ping for host
 # Check if the script is provided with an argument
 if [ "$#" -ne 1 ]; then

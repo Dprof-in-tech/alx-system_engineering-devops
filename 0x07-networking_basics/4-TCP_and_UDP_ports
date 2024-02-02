@@ -11,5 +11,3 @@ netstat -tulpn 2>/dev/null | awk '/^tcp/ || /^udp/ {print $1, $4, $7}' | sed -E 
     program_name=$(ps -p $pid_program -o comm= 2>/dev/null)
 
     # Display information
-    echo "$proto       -         -  $local   $foreign   -       $pid_program/$program_name"
-done
