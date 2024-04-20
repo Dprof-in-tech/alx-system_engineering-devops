@@ -13,7 +13,7 @@ if grep -q "user nginx;" "$NGINX_CONF"; then
     echo "Nginx is already set to run as nginx user."
 else
     sed -i '/^user /c\user nginx;' "$NGINX_CONF"
-    echo "Nginx user set to nginx."
+    echo "nginx."
 fi
 
 # Step 2: Ensure nginx is listening on port 8080 on all active IPs
@@ -22,7 +22,7 @@ if grep -q "listen 8080;" "$DEFAULT_SITE"; then
     echo "Nginx is already set to listen on port 8080."
 else
     sed -i 's/listen [0-9]*;/listen 8080;/' "$DEFAULT_SITE"
-    echo "Nginx set to listen on port 8080."
+    echo "nginx set to listen on port 8080."
 fi
 
 # Step 3: Reload nginx to apply changes
