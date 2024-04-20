@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # This script runs the 'whoami' command as the user specified in the argument.
-if [ "$#" -ne 1 ]
-then
+if [ "$#" -ne 1 ]; then
     echo "Usage: $0 username"
     exit 0
 fi
