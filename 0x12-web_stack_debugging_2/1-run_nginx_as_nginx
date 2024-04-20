@@ -9,29 +9,22 @@ fi
 
 # Step 1: Update nginx.conf to run as nginx user
 NGINX_CONF="/etc/nginx/nginx.conf"
-USER_DIRECTIVE="user nginx;"
-# Check and modify nginx user
-if grep -q "^user" "$NGINX_CONF"; then
-    sed -i "s/^user .*/$USER_DIRECTIVE/" "$NGINX_CONF"
+if grep -q "user nginx;" "$NGINX_CONF"; then
+    echo "Nginx is already set to run as nginx user."
 else
-    sed -i "1i $USER_DIRECTIVE" "$NGINX_CONF"
-fi
-echo "Nginx configuration updated to run as nginx user."
-
-# Step 2: Modify default site configuration to listen on port 8080
-DEFAULT_SITE="/etc/nginx/sites-available/default"
-if ! grep -q "listen 8080" "$DEFAULT_SITE"; then
-    sed -i "/listen 80/c\    listen 8080;" "$DEFAULT_SITE"
-    echo "Default site updated to listen on port 8080."
+    sed -i '/^user /c\user nginx;' "$NGINX_CONF"
+    echo "Nginx user set to nginx."
 fi
 
-# Step 3: Reload Nginx to apply changes
-nginx -t && systemctl reload nginx
-echo "Nginx reloaded with new configuration."
+# Step 2: Ensure nginx is listening on port 8080 on all active IPs
+DEFAULT_SITE="/etc/nginx/sites-enabled/default"
+if grep -q "listen 8080;" "$DEFAULT_SITE"; then
+    echo "Nginx is already set to listen on port 8080."
+else
+    sed -i 's/listen [0-9]*;/listen 8080;/' "$DEFAULT_SITE"
+    echo "Nginx set to listen on port 8080."
+fi
 
-# Additional debug output to verify
-echo "Current Nginx processes:"
-ps aux | grep ngin[x]
-
-echo "Checking port 8080 status:"
-nc -zv 0.0.0.0 8080
+# Step 3: Reload nginx to apply changes
+nginx -t && nginx -s reload
+echo "Nginx configuration reloaded."
