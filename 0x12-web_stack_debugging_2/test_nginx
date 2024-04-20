@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Test script for verifying the configuration of Nginx
+
+# Run the main script to configure Nginx
+./1-run_nginx_as_nginx
+
+# Check if Nginx is running as the 'nginx' user
+if ps aux | grep 'nginx: master process' | grep -q 'nginx'; then
+    echo "Nginx is running as the nginx user"
+else
+    echo "Nginx is not running as the nginx user"
+fi
+
+# Check if Nginx is listening on port 8080
+if ss -tln | grep -q ':8080'; then
+    echo "Nginx is listening on port 8080"
+else
+    echo "Nginx is not listening on port 8080"
+fi

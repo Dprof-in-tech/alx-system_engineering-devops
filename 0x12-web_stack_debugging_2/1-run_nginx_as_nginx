@@ -17,7 +17,7 @@ else
 fi
 
 # Step 2: Ensure nginx is listening on port 8080 on all active IPs
-DEFAULT_SITE="/etc/nginx/nginx.conf"
+DEFAULT_SITE="/etc/nginx/sites-available/default"
 if grep -q "listen 8080;" "$DEFAULT_SITE"; then
     echo "Nginx is already set to listen on port 8080."
 else
