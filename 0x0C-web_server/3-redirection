@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
-#code to configure nginx for redirection
+# Script to configure nginx for redirection
+
+# Exit on any error
+set -e
 
 # Step 1: Install Nginx
 sudo apt update
-sudo apt install nginx -y
+sudo apt install -y nginx
 
-# Step 2: Configure Nginx for redirection
-sudo cat <<EOF > /etc/nginx/sites-available/redirect_me
+# Ensure nginx sites-enabled directory is used
+sudo mkdir -p /etc/nginx/sites-enabled
+
+# Step 2: Configure Nginx for redirection using a here-document
+sudo tee /etc/nginx/sites-available/redirect_me >/dev/null <<EOF
 server {
     listen 80;
     server_name _;
@@ -22,8 +28,8 @@ server {
 }
 EOF
 
-# Step 3: Enable the configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+# Step 3: Enable the configuration by symlinking it
+sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
 # Step 4: Test the Nginx configuration
 sudo nginx -t
