@@ -16,8 +16,8 @@ frontend  prof-frontend
         default_backend prof-backend
 backend prof-backend
         balance roundrobin
-        server 434802-web-01 54.165.20.141:80 check
-        server 434802-web-02 100.26.152.113:80 check
+        server 258856-web-01 54.165.20.141:80 check
+        server 258856-web-02 100.26.152.113:80 check
 "
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
