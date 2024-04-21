@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#code to configure nginx for redirection
 
 # Step 1: Install Nginx
 sudo apt update
