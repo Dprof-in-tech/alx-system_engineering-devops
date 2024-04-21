@@ -1,38 +1,10 @@
 #!/usr/bin/env bash
-# Script to configure nginx for redirection
+# Configures a new Ubuntu machine
 
-# Exit on any error
-set -e
+sudo apt -y update
+sudo apt -y install nginx
+#ufw allow 'Nginx HTTP'
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Step 1: Install Nginx
-sudo apt update
-sudo apt install -y nginx
-
-# Ensure nginx sites-enabled directory is used
-sudo mkdir -p /etc/nginx/sites-enabled
-
-# Step 2: Configure Nginx for redirection using a here-document
-sudo tee /etc/nginx/sites-available/redirect_me >/dev/null <<EOF
-server {
-    listen 80;
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.example.com/new_page;
-    }
-
-    # Redirect all other requests to the main server
-    location / {
-        return 301 https://www.example.com;
-    }
-}
-EOF
-
-# Step 3: Enable the configuration by symlinking it
-sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Step 4: Test the Nginx configuration
-sudo nginx -t
-
-# Step 5: Restart Nginx to apply changes
-sudo systemctl restart nginx
+sed -i 's/server_name _;/server_name _;\n\trewrite \/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/' /etc/nginx/sites-enabled/default
+sudo service nginx restart
