@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Install Nginx and configure to serve a custom HTML page on Ubuntu
+
+# Update and install nginx
+apt-get update
+apt-get install -y nginx
+
+# Ensure nginx starts automatically on boot
+update-rc.d nginx defaults
+
+# Replace the default Nginx configuration file
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Create a custom HTML file
+echo "Hello World!" > /var/www/html/index.html
+
+# Adjust permissions for Nginx to read the HTML file
+chown -R www-data:www-data /var/www/html
+
+# Reload nginx to apply changes without using systemctl
+nginx -s reload
+
+echo "Nginx installation and configuration complete."
