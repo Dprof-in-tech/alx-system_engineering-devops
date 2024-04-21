@@ -1,1 +1,1 @@
-This is my processes and signals folder
+# HI its Isaac here and i'm writing my Alx projects
